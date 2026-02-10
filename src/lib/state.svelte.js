@@ -86,7 +86,7 @@ export class TaskStore {
         try {
             const taskRef = doc(db, "tareas", task.id);
             await updateDoc(taskRef, {
-                estado: task.estado === 'pendiente' ? 'completado' : 'pendiente'
+                estado: task.estado === 'pending' ? 'completed' : 'pending'
             });
         } catch (e) {
             console.error("Error updating task: ", e);

@@ -2,7 +2,7 @@
     import { taskStore, authStore } from '$lib/state.svelte.js';
     import TaskCard from '$lib/components/TaskCard.svelte';
 
-    let filter = $state('pendiente'); 
+    let filter = $state('pending'); 
     let searchQuery = $state('');
     let isFormOpen = $state(false);
     
@@ -16,14 +16,14 @@
     let filteredTasks = $derived(
         taskStore.tasks
             .filter(t => {
-                const matchesFilter = filter === 'todos' || t.estado === filter;
+                const matchesFilter = filter === 'all' || t.estado === filter;
                 const matchesSearch = t.titulo.toLowerCase().includes(searchQuery.toLowerCase()) || 
                                      t.resumen.toLowerCase().includes(searchQuery.toLowerCase());
                 return matchesFilter && matchesSearch;
             })
             .sort((a, b) => {
-                if (a.estado === 'pendiente' && b.estado === 'completado') return -1;
-                if (a.estado === 'completado' && b.estado === 'pendiente') return 1;
+                if (a.estado === 'pending' && b.estado === 'completed') return -1;
+                if (a.estado === 'completed' && b.estado === 'pending') return 1;
                 return 0;
             })
     );
@@ -60,7 +60,7 @@
         
         const taskData = {
             ...formTask,
-            estado: editingTask ? editingTask.estado : 'pendiente',
+            estado: editingTask ? editingTask.estado : 'pending',
             datos_evento: editingTask ? editingTask.datos_evento : {
                 fecha: new Date().toISOString().split('T')[0],
                 hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -133,10 +133,10 @@
                     </div>
                 </div>
                 
-                <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 bg-slate-900/50 p-1.5 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-xl">
-                    {#each ['pendiente', 'completado', 'todos'] as f}
+                <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1 bg-slate-900/50 p-1 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-xl">
+                    {#each ['pending', 'completed', 'all'] as f}
                         <button 
-                            class="px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 whitespace-nowrap {filter === f ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'}"
+                            class="px-3.5 py-2 rounded-xl text-[10px] font-black uppercase tracking-tighter transition-all duration-300 whitespace-nowrap {filter === f ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'}"
                             onclick={() => filter = f}
                         >
                             {f}

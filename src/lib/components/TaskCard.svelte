@@ -45,21 +45,21 @@
             onclick={() => taskStore.toggleComplete(task)}
             class="px-4 py-1.5 text-xs rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all font-semibold active:scale-95"
         >
-            {task.estado === 'completado' ? 'Reabrir' : 'Completar'}
+            {task.estado === 'completed' ? 'Reopen' : 'Complete'}
         </button>
 
         <button 
             onclick={() => onedit(task)}
             class="px-4 py-1.5 text-xs rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all font-semibold active:scale-95"
         >
-            Editar
+            Edit
         </button>
         
         <div class="ml-auto flex items-center gap-1">
              <button 
                  onclick={() => taskStore.deleteTask(task.id)}
                  class="p-2 text-slate-500 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all"
-                 title="Eliminar"
+                 title="Delete"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
