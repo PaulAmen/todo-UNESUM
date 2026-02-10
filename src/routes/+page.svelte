@@ -128,7 +128,7 @@
     <!-- Authorized Dashboard -->
     <div class="min-h-screen bg-[#020617] p-4 md:p-8 font-sans text-slate-200 pb-24">
         <div class="max-w-6xl mx-auto">
-            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <header class="mb-3 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div class="space-y-1">
                     <h1 class="text-4xl font-black text-white tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
                         UNESUM Tasks
@@ -136,7 +136,7 @@
                     <div class="flex items-center gap-3">
                         <p class="text-slate-500 text-sm font-medium tracking-wide">TASK MANAGEMENT SYSTEM</p>
                         <span class="w-1 h-1 bg-slate-700 rounded-full"></span>
-                        <button onclick={() => authStore.logout()} class="text-[10px] font-bold text-red-500/70 hover:text-red-400 uppercase tracking-widest transition-colors">Cerrar Sesión</button>
+                        <button onclick={() => authStore.logout()} class="text-[10px] font-bold text-red-500/70 hover:text-red-400 uppercase tracking-widest transition-colors">Sign Out</button>
                     </div>
                 </div>
                 
@@ -152,7 +152,7 @@
                 </div>
             </header>
 
-            <div class="space-y-6">
+            <div class="space-y-4">
                 <!-- Search Bar -->
                 <div class="relative group max-w-2xl mx-auto w-full">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-6 text-slate-600 group-focus-within:text-blue-500 transition-colors">
