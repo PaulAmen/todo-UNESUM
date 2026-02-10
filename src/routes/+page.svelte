@@ -68,8 +68,9 @@
         const taskData = {
             ...formTask,
             estado: editingTask ? editingTask.estado : 'pending',
+            fecha_creacion: editingTask ? (editingTask.fecha_creacion || new Date().toISOString()) : new Date().toISOString(),
             datos_evento: editingTask ? editingTask.datos_evento : {
-                fecha: new Date().toISOString().split('T')[0],
+                fecha: new Date().toLocaleDateString(),
                 hora: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }
         };

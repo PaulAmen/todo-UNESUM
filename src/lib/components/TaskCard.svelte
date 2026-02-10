@@ -9,6 +9,33 @@
     };
 
     let colorClass = $derived(priorityColors[task.prioridad] || 'border-slate-700 bg-slate-800/50 text-slate-400');
+
+    function formatDisplayDate(dateStr) {
+        if (!dateStr) return null;
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    function formatDisplayTime(dateStr) {
+        if (!dateStr) return null;
+        const d = new Date(dateStr);
+        if (isNaN(d.getTime())) return dateStr;
+        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Prioritize datos_evento if they look like clean strings, otherwise fallback to formatted fecha_creacion
+    let dateToShow = $derived(
+        (task.datos_evento?.fecha && task.datos_evento.fecha.length < 15) 
+        ? task.datos_evento.fecha 
+        : formatDisplayDate(task.fecha_creacion || task.datos_evento?.fecha)
+    );
+    
+    let timeToShow = $derived(
+        (task.datos_evento?.hora && task.datos_evento.hora.length < 10)
+        ? task.datos_evento.hora
+        : formatDisplayTime(task.fecha_creacion || task.datos_evento?.fecha)
+    );
 </script>
 
 <div class="group relative bg-slate-900 border {colorClass} rounded-2xl p-5 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-opacity-100 flex flex-col gap-3">
@@ -31,16 +58,14 @@
         </div>
     {/if}
 
-    {#if task.datos_evento}
-        <div class="text-xs text-slate-300 flex items-center gap-1.5 font-semibold bg-white/5 py-1 px-2 rounded-lg w-fit">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <span>{task.datos_evento.fecha || 'No date'}</span> 
-            <span class="text-slate-600">|</span> 
-            <span>{task.datos_evento.hora || 'No time'}</span>
-        </div>
-    {/if}
+    <div class="text-xs text-slate-300 flex items-center gap-1.5 font-semibold bg-white/5 py-1 px-2 rounded-lg w-fit">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span>{dateToShow || 'No date'}</span> 
+        <span class="text-slate-600">|</span> 
+        <span>{timeToShow || 'No time'}</span>
+    </div>
 
     <div class="mt-4 pt-4 border-t border-slate-800/50 flex gap-2 items-center">
         <button 
