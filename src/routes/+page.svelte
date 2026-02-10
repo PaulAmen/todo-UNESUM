@@ -5,7 +5,6 @@
     let filter = $state('todos'); 
     let searchQuery = $state('');
     
-    // Filtering logic using $derived (Filter + Search)
     let filteredTasks = $derived(
         taskStore.tasks.filter(t => {
             const matchesFilter = filter === 'todos' || t.estado === filter;
@@ -15,7 +14,6 @@
         })
     );
     
-    // Editor State
     let editingTask = $state(null);
     let formTask = $state({
         titulo: '',
@@ -27,13 +25,7 @@
 
     function openAdd() {
         editingTask = null;
-        formTask = {
-            titulo: '',
-            tipo: 'tarea',
-            prioridad: 'media',
-            resumen: '',
-            accion_sugerida: ''
-        };
+        formTask = { titulo: '', tipo: 'tarea', prioridad: 'media', resumen: '', accion_sugerida: '' };
     }
 
     function openEdit(task) {
@@ -45,7 +37,6 @@
             resumen: task.resumen || '',
             accion_sugerida: task.accion_sugerida || ''
         };
-        // Scroll to form or show modal? For now, we'll keep the form at top or in a modal-like overlay
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -67,21 +58,24 @@
             await taskStore.addTask(taskData);
         }
         
-        openAdd(); // Reset form
+        openAdd();
     }
 </script>
 
-<div class="min-h-screen bg-gray-50 p-4 md:p-8 font-sans text-gray-900">
+<div class="min-h-screen bg-[#020617] p-4 md:p-8 font-sans text-slate-200">
     <div class="max-w-6xl mx-auto">
-        <header class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                 <h1 class="text-3xl font-bold text-gray-900 tracking-tight">Task Dashboard</h1>
+        <header class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div class="space-y-1">
+                 <h1 class="text-4xl font-black text-white tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
+                    UNESUM Tasks
+                 </h1>
+                 <p class="text-slate-500 text-sm font-medium tracking-wide">PREMIUM TASK MANAGEMENT SYSTEM</p>
             </div>
             
-             <div class="flex flex-wrap gap-2 bg-white p-1 rounded-xl border shadow-sm self-start md:self-auto">
+             <div class="flex flex-wrap gap-1.5 bg-slate-900/50 p-1.5 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-xl">
                 {#each ['todos', 'pendiente', 'completado'] as f}
                     <button 
-                        class="px-4 py-2 rounded-lg text-sm capitalize transition-all duration-200 {filter === f ? 'bg-blue-600 text-white shadow-md font-medium' : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'}"
+                        class="px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 {filter === f ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'}"
                         onclick={() => filter = f}
                     >
                         {f}
@@ -90,120 +84,131 @@
             </div>
         </header>
 
-        <!-- Search and Form Area -->
-        <div class="space-y-4 mb-8">
-            <!-- Search Bar -->
-            <div class="relative group">
-                <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 group-focus-within:text-blue-500 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </span>
-                <input 
-                    type="text" 
-                    placeholder="Buscar por título o resumen..." 
-                    bind:value={searchQuery}
-                    class="w-full bg-white border border-gray-200 rounded-2xl py-4 pl-12 pr-4 text-gray-700 shadow-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
-                />
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            <!-- Left: Form -->
+            <div class="lg:col-span-5 space-y-6">
+                <div class="bg-slate-900/40 p-8 rounded-[2rem] border border-slate-800 backdrop-blur-md shadow-2xl sticky top-8">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-xl font-bold text-white flex items-center gap-3">
+                            <span class="w-2 h-8 bg-blue-500 rounded-full"></span>
+                            {editingTask ? 'Editar Registro' : 'Nuevo Registro'}
+                        </h2>
+                        {#if editingTask}
+                            <button onclick={openAdd} class="text-[10px] font-bold uppercase tracking-widest text-slate-500 hover:text-red-400 transition-colors">Cancelar</button>
+                        {/if}
+                    </div>
+
+                    <div class="space-y-5">
+                        <div class="group">
+                            <label for="title" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Título del Proyecto</label>
+                            <input 
+                                id="title"
+                                type="text" 
+                                bind:value={formTask.titulo} 
+                                class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-700"
+                                placeholder="Ej: Implementar Auth"
+                            />
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="type" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Categoría</label>
+                                <select id="type" bind:value={formTask.tipo} class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer appearance-none">
+                                    <option value="tarea">Tarea</option>
+                                    <option value="reunion">Reunión</option>
+                                    <option value="informativo">Info</option>
+                                    <option value="spam">Spam</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="priority" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Prioridad</label>
+                                <select id="priority" bind:value={formTask.prioridad} class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer appearance-none">
+                                    <option value="alta">Alta</option>
+                                    <option value="media">Media</option>
+                                    <option value="baja">Baja</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="resumen" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Descripción Detallada</label>
+                            <textarea 
+                                id="resumen"
+                                bind:value={formTask.resumen}
+                                rows="3"
+                                class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-4 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all resize-none placeholder-slate-700"
+                                placeholder="Describe los puntos clave..."
+                            ></textarea>
+                        </div>
+
+                        <div>
+                            <label for="accion" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Acción Inmediata</label>
+                            <input 
+                                id="accion"
+                                type="text" 
+                                bind:value={formTask.accion_sugerida}
+                                class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-700"
+                                placeholder="Ej: Contactar al equipo"
+                            />
+                        </div>
+
+                        <button 
+                            onclick={handleSubmit}
+                            disabled={!formTask.titulo.trim()}
+                            class="w-full mt-4 py-4 bg-blue-600 disabled:opacity-30 disabled:cursor-not-allowed text-white rounded-2xl hover:bg-blue-500 transition-all font-black uppercase tracking-[0.2em] text-xs shadow-lg shadow-blue-900/20 active:scale-[0.98]"
+                        >
+                            {editingTask ? 'Guardar Cambios' : 'Registrar Tarea'}
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Form (Editor/Add) -->
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="font-bold text-lg text-gray-700">
-                        {editingTask ? '📝 Editar Tarea' : '➕ Nueva Tarea'}
-                    </h2>
-                    {#if editingTask}
-                        <button onclick={openAdd} class="text-xs text-gray-400 hover:text-red-500 font-medium">Cancelar edición</button>
-                    {/if}
+            <!-- Right: Search + List -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Search Bar -->
+                <div class="relative group">
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-6 text-slate-600 group-focus-within:text-blue-500 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </span>
+                    <input 
+                        type="text" 
+                        placeholder="Buscar en el ecosistema..." 
+                        bind:value={searchQuery}
+                        class="w-full bg-slate-900/40 border border-slate-800 rounded-[2rem] py-5 pl-14 pr-6 text-white shadow-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-600 backdrop-blur-md"
+                    />
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-start">
-                    <div class="md:col-span-2">
-                        <label for="title" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Título</label>
-                        <input 
-                            id="title"
-                            type="text" 
-                            bind:value={formTask.titulo} 
-                            class="w-full border-gray-200 border rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
-                            placeholder="¿Qué hay que hacer?"
-                        />
+                {#if taskStore.loading}
+                    <div class="flex flex-col items-center justify-center py-32 space-y-4">
+                        <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                        <p class="text-[10px] font-black text-slate-600 uppercase tracking-widest">Sincronizando con Firestore</p>
                     </div>
-                    <div>
-                        <label for="type" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Tipo</label>
-                        <select id="type" bind:value={formTask.tipo} class="w-full border-gray-200 border rounded-xl px-4 py-2.5 text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer">
-                            <option value="tarea">Tarea</option>
-                            <option value="reunion">Reunión</option>
-                            <option value="informativo">Info</option>
-                            <option value="spam">Spam</option>
-                        </select>
+                {:else if taskStore.error}
+                    <div class="bg-red-500/10 text-red-400 p-6 rounded-3xl border border-red-500/20 flex items-center gap-4">
+                        <span class="text-2xl">⚠️</span>
+                        <div class="text-sm font-medium">Error de sistema: {taskStore.error}</div>
                     </div>
-                    <div>
-                        <label for="priority" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Prioridad</label>
-                        <select id="priority" bind:value={formTask.prioridad} class="w-full border-gray-200 border rounded-xl px-4 py-2.5 text-sm bg-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer">
-                            <option value="alta">Alta</option>
-                            <option value="media">Media</option>
-                            <option value="baja">Baja</option>
-                        </select>
+                {:else if filteredTasks.length === 0}
+                    <div class="text-center py-32 bg-slate-900/20 rounded-[3rem] border border-dashed border-slate-800/50">
+                        <div class="text-4xl mb-4 opacity-20">🧊</div>
+                        <p class="text-slate-500 font-medium italic">El vacío es absoluto. No hay registros.</p>
                     </div>
-                </div>
-
-                <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label for="resumen" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Resumen / Descripción</label>
-                        <textarea 
-                            id="resumen"
-                            bind:value={formTask.resumen}
-                            rows="2"
-                            class="w-full border-gray-200 border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all resize-none"
-                            placeholder="Detalles adicionales..."
-                        ></textarea>
+                {:else}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {#each filteredTasks as task (task.id)}
+                             <TaskCard {task} onedit={openEdit} />
+                        {/each}
                     </div>
-                    <div>
-                        <label for="accion" class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Acción Sugerida</label>
-                        <input 
-                            id="accion"
-                            type="text" 
-                            bind:value={formTask.accion_sugerida}
-                            class="w-full border-gray-200 border rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all"
-                            placeholder="Ej: Llamar a Juan"
-                        />
-                    </div>
-                </div>
-
-                <div class="mt-6 flex justify-end">
-                    <button 
-                        onclick={handleSubmit}
-                        disabled={!formTask.titulo.trim()}
-                        class="px-8 py-3 bg-blue-600 disabled:bg-blue-300 text-white rounded-xl hover:bg-blue-700 transition-all font-bold shadow-md hover:shadow-lg active:scale-95"
-                    >
-                        {editingTask ? 'Actualizar Tarea' : 'Crear Tarea'}
-                    </button>
-                </div>
+                {/if}
             </div>
         </div>
-
-        {#if taskStore.loading}
-            <div class="flex justify-center py-20">
-                <div class="animate-spin rounded-full h-12 w-12 border-4 border-blue-600 border-t-transparent"></div>
-            </div>
-        {:else if taskStore.error}
-            <div class="bg-red-50 text-red-600 p-6 rounded-2xl border border-red-100 flex items-center gap-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>Error: {taskStore.error}</span>
-            </div>
-        {:else if filteredTasks.length === 0}
-            <div class="text-center py-20 text-gray-400 bg-white rounded-3xl border border-dashed border-gray-200">
-                <p>No se encontraron tareas que coincidan.</p>
-            </div>
-        {:else}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {#each filteredTasks as task (task.id)}
-                     <TaskCard {task} onedit={openEdit} />
-                {/each}
-            </div>
-        {/if}
     </div>
 </div>
+
+<style>
+    :global(body) {
+        background-color: #020617;
+    }
+</style>
