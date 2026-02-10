@@ -19,7 +19,7 @@ const config = {
             strict: true
         }),
         paths: {
-            base: process.env.NODE_ENV === 'production' ? '/todo' : '', // Assuming 'todo' is the repo name for now, user can change
+            base: process.env.NODE_ENV === 'production' ? '/todo-UNESUM' : '',
         }
 	}
 };
