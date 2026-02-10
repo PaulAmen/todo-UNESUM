@@ -165,7 +165,7 @@
                         type="text" 
                         placeholder="Buscar en el ecosistema..." 
                         bind:value={searchQuery}
-                        class="w-full bg-slate-900/40 border border-slate-800 rounded-[2rem] py-5 pl-14 pr-6 text-white shadow-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-600 backdrop-blur-md"
+                        class="w-full bg-slate-900/40 border border-slate-800 rounded-[2rem] py-5 pl-14 pr-6 text-base text-white shadow-2xl focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-600 backdrop-blur-md"
                     />
                 </div>
 
@@ -224,62 +224,62 @@
                 </div>
 
                 <div class="space-y-5">
-                    <div class="group">
-                        <label for="title" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Título del Proyecto</label>
-                        <input 
-                            id="title"
-                            type="text" 
-                            bind:value={formTask.titulo} 
-                            class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-700"
-                            placeholder="Ej: Implementar Auth"
-                        />
-                    </div>
+                        <div class="group">
+                            <label for="title" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Título del Proyecto</label>
+                            <input 
+                                id="title"
+                                type="text" 
+                                bind:value={formTask.titulo} 
+                                class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-base text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-700"
+                                placeholder="Ej: Implementar Auth"
+                            />
+                        </div>
 
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="type" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Categoría</label>
-                            <div class="relative">
-                                <select id="type" bind:value={formTask.tipo} class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer appearance-none">
-                                    <option value="tarea">Tarea</option>
-                                    <option value="reunion">Reunión</option>
-                                    <option value="informativo">Info</option>
-                                    <option value="spam">Spam</option>
-                                </select>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="type" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Categoría</label>
+                                <div class="relative">
+                                    <select id="type" bind:value={formTask.tipo} class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-base text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer appearance-none">
+                                        <option value="tarea">Tarea</option>
+                                        <option value="reunion">Reunión</option>
+                                        <option value="informativo">Info</option>
+                                        <option value="spam">Spam</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="priority" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Prioridad</label>
+                                <div class="relative">
+                                    <select id="priority" bind:value={formTask.prioridad} class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-base text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer appearance-none">
+                                        <option value="alta">Alta</option>
+                                        <option value="media">Media</option>
+                                        <option value="baja">Baja</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
+
                         <div>
-                            <label for="priority" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Prioridad</label>
-                            <div class="relative">
-                                <select id="priority" bind:value={formTask.prioridad} class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-4 py-3.5 text-sm text-white outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all cursor-pointer appearance-none">
-                                    <option value="alta">Alta</option>
-                                    <option value="media">Media</option>
-                                    <option value="baja">Baja</option>
-                                </select>
-                            </div>
+                            <label for="resumen" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Descripción Detallada</label>
+                            <textarea 
+                                id="resumen"
+                                bind:value={formTask.resumen}
+                                rows="3"
+                                class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-4 text-base text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all resize-none placeholder-slate-700"
+                                placeholder="Describe los puntos clave..."
+                            ></textarea>
                         </div>
-                    </div>
 
-                    <div>
-                        <label for="resumen" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Descripción Detallada</label>
-                        <textarea 
-                            id="resumen"
-                            bind:value={formTask.resumen}
-                            rows="3"
-                            class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-4 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all resize-none placeholder-slate-700"
-                            placeholder="Describe los puntos clave..."
-                        ></textarea>
-                    </div>
-
-                    <div>
-                        <label for="accion" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Acción Inmediata</label>
-                        <input 
-                            id="accion"
-                            type="text" 
-                            bind:value={formTask.accion_sugerida}
-                            class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-sm text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-700"
-                            placeholder="Ej: Contactar al equipo"
-                        />
-                    </div>
+                        <div>
+                            <label for="accion" class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-2 px-1">Acción Inmediata</label>
+                            <input 
+                                id="accion"
+                                type="text" 
+                                bind:value={formTask.accion_sugerida}
+                                class="w-full bg-slate-950/50 border border-slate-800 rounded-2xl px-5 py-3.5 text-base text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all placeholder-slate-700"
+                                placeholder="Ej: Contactar al equipo"
+                            />
+                        </div>
 
                     <button 
                         onclick={handleSubmit}

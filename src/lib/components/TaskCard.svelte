@@ -10,32 +10,53 @@
 
     let colorClass = $derived(priorityColors[task.prioridad] || 'border-slate-700 bg-slate-800/50 text-slate-400');
 
-    function formatDisplayDate(dateStr) {
-        if (!dateStr) return null;
-        const d = new Date(dateStr);
-        if (isNaN(d.getTime())) return dateStr;
-        return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    function formatDisplayDate(input) {
+        if (!input) return null;
+        try {
+            const d = new Date(input);
+            if (isNaN(d.getTime())) return input;
+            return d.toLocaleDateString('es-ES', { 
+                day: '2-digit', 
+                month: '2-digit', 
+                year: 'numeric',
+                timeZone: 'America/Guayaquil' // Force GMT-5
+            });
+        } catch (e) {
+            return input;
+        }
     }
 
-    function formatDisplayTime(dateStr) {
-        if (!dateStr) return null;
-        const d = new Date(dateStr);
-        if (isNaN(d.getTime())) return dateStr;
-        return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    function formatDisplayTime(input) {
+        if (!input) return null;
+        try {
+            const d = new Date(input);
+            if (isNaN(d.getTime())) return input;
+            return d.toLocaleTimeString('es-ES', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                timeZone: 'America/Guayaquil' // Force GMT-5
+            });
+        } catch (e) {
+            return input;
+        }
     }
 
-    // Prioritize datos_evento if they look like clean strings, otherwise fallback to formatted fecha_creacion
-    let dateToShow = $derived(
-        (task.datos_evento?.fecha && task.datos_evento.fecha.length < 15) 
-        ? task.datos_evento.fecha 
-        : formatDisplayDate(task.fecha_creacion || task.datos_evento?.fecha)
-    );
+    // Computed properties for display
+    let dateToShow = $derived.by(() => {
+        // Try to get from datos_evento first if it looks like a simple date
+        if (task.datos_evento?.fecha && task.datos_evento.fecha.length < 15 && !task.datos_evento.fecha.includes('T')) {
+            return task.datos_evento.fecha;
+        }
+        // Fallback to fecha_creacion
+        return formatDisplayDate(task.fecha_creacion || task.datos_evento?.fecha);
+    });
     
-    let timeToShow = $derived(
-        (task.datos_evento?.hora && task.datos_evento.hora.length < 10)
-        ? task.datos_evento.hora
-        : formatDisplayTime(task.fecha_creacion || task.datos_evento?.fecha)
-    );
+    let timeToShow = $derived.by(() => {
+        if (task.datos_evento?.hora && task.datos_evento.hora.length < 10) {
+            return task.datos_evento.hora;
+        }
+        return formatDisplayTime(task.fecha_creacion || task.datos_evento?.fecha);
+    });
 </script>
 
 <div class="group relative bg-slate-900 border {colorClass} rounded-2xl p-5 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-opacity-100 flex flex-col gap-3">
