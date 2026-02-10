@@ -2,7 +2,7 @@
     import { taskStore, authStore } from '$lib/state.svelte.js';
     import TaskCard from '$lib/components/TaskCard.svelte';
 
-    let filter = $state('todos'); 
+    let filter = $state('pendiente'); 
     let searchQuery = $state('');
     let isFormOpen = $state(false);
     
@@ -121,7 +121,7 @@
     <!-- Authorized Dashboard -->
     <div class="min-h-screen bg-[#020617] p-4 md:p-8 font-sans text-slate-200 pb-24">
         <div class="max-w-6xl mx-auto">
-            <header class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-6">
                 <div class="space-y-1">
                     <h1 class="text-4xl font-black text-white tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
                         UNESUM Tasks
@@ -134,7 +134,7 @@
                 </div>
                 
                 <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 bg-slate-900/50 p-1.5 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-xl">
-                    {#each ['todos', 'pendiente', 'completado'] as f}
+                    {#each ['pendiente', 'completado', 'todos'] as f}
                         <button 
                             class="px-5 py-2 rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 whitespace-nowrap {filter === f ? 'bg-blue-600 text-white shadow-[0_0_20px_rgba(37,99,235,0.4)]' : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'}"
                             onclick={() => filter = f}
@@ -145,7 +145,7 @@
                 </div>
             </header>
 
-            <div class="space-y-8">
+            <div class="space-y-6">
                 <!-- Search Bar -->
                 <div class="relative group max-w-2xl mx-auto w-full">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-6 text-slate-600 group-focus-within:text-blue-500 transition-colors">
