@@ -29,12 +29,17 @@
             .sort((a, b) => {
                 const rawA = a.estado || 'pending';
                 const rawB = b.estado || 'pending';
-                const statusA = (rawA === 'pendiente' || rawA === 'pending') ? 'pending' : 'completed';
-                const statusB = (rawB === 'pendiente' || rawB === 'pending') ? 'pending' : 'completed';
+                const statusA = (rawA === 'pendiente' || rawA === 'pending') ? 0 : 1;
+                const statusB = (rawB === 'pendiente' || rawB === 'pending') ? 0 : 1;
                 
-                if (statusA === 'pending' && statusB === 'completed') return -1;
-                if (statusA === 'completed' && statusB === 'pending') return 1;
-                return 0;
+                if (statusA !== statusB) return statusA - statusB;
+
+                // Sort by priority within same status
+                const priorityWeight = { 'alta': 3, 'high': 3, 'media': 2, 'medium': 2, 'baja': 1, 'low': 1 };
+                const pA = priorityWeight[a.prioridad] || 0;
+                const pB = priorityWeight[b.prioridad] || 0;
+                
+                return pB - pA; // Higher weight first
             })
     );
     
