@@ -16,9 +16,10 @@
     let filteredTasks = $derived(
         taskStore.tasks
             .filter(t => {
-                // Normalize status to handle transition from Spanish to English
-                const currentStatus = t.estado === 'pendiente' ? 'pending' : 
-                                    t.estado === 'completado' ? 'completed' : t.estado;
+                // Normalize status to handle transition from Spanish to English and missing values
+                const raw = t.estado || 'pending';
+                const currentStatus = (raw === 'pendiente' || raw === 'pending') ? 'pending' : 
+                                    (raw === 'completado' || raw === 'completed') ? 'completed' : 'pending';
                 
                 const matchesFilter = filter === 'all' || currentStatus === filter;
                 const matchesSearch = t.titulo.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -26,8 +27,10 @@
                 return matchesFilter && matchesSearch;
             })
             .sort((a, b) => {
-                const statusA = a.estado === 'pendiente' ? 'pending' : a.estado;
-                const statusB = b.estado === 'pendiente' ? 'pending' : b.estado;
+                const rawA = a.estado || 'pending';
+                const rawB = b.estado || 'pending';
+                const statusA = (rawA === 'pendiente' || rawA === 'pending') ? 'pending' : 'completed';
+                const statusB = (rawB === 'pendiente' || rawB === 'pending') ? 'pending' : 'completed';
                 
                 if (statusA === 'pending' && statusB === 'completed') return -1;
                 if (statusA === 'completed' && statusB === 'pending') return 1;
