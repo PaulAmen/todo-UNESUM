@@ -69,7 +69,7 @@
                  <h1 class="text-4xl font-black text-white tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">
                     UNESUM Tasks
                  </h1>
-                 <p class="text-slate-500 text-sm font-medium tracking-wide">PREMIUM TASK MANAGEMENT SYSTEM</p>
+                 <p class="text-slate-500 text-sm font-medium tracking-wide">TASK MANAGEMENT SYSTEM</p>
             </div>
             
              <div class="flex flex-wrap gap-1.5 bg-slate-900/50 p-1.5 rounded-2xl border border-slate-800 shadow-2xl backdrop-blur-xl">
