@@ -85,8 +85,9 @@ export class TaskStore {
     async toggleComplete(task) {
         try {
             const taskRef = doc(db, "tareas", task.id);
+            const isCurrentlyPending = task.estado === 'pending' || task.estado === 'pendiente';
             await updateDoc(taskRef, {
-                estado: task.estado === 'pending' ? 'completed' : 'pending'
+                estado: isCurrentlyPending ? 'completed' : 'pending'
             });
         } catch (e) {
             console.error("Error updating task: ", e);

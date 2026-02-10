@@ -16,14 +16,21 @@
     let filteredTasks = $derived(
         taskStore.tasks
             .filter(t => {
-                const matchesFilter = filter === 'all' || t.estado === filter;
+                // Normalize status to handle transition from Spanish to English
+                const currentStatus = t.estado === 'pendiente' ? 'pending' : 
+                                    t.estado === 'completado' ? 'completed' : t.estado;
+                
+                const matchesFilter = filter === 'all' || currentStatus === filter;
                 const matchesSearch = t.titulo.toLowerCase().includes(searchQuery.toLowerCase()) || 
                                      t.resumen.toLowerCase().includes(searchQuery.toLowerCase());
                 return matchesFilter && matchesSearch;
             })
             .sort((a, b) => {
-                if (a.estado === 'pending' && b.estado === 'completed') return -1;
-                if (a.estado === 'completed' && b.estado === 'pending') return 1;
+                const statusA = a.estado === 'pendiente' ? 'pending' : a.estado;
+                const statusB = b.estado === 'pendiente' ? 'pending' : b.estado;
+                
+                if (statusA === 'pending' && statusB === 'completed') return -1;
+                if (statusA === 'completed' && statusB === 'pending') return 1;
                 return 0;
             })
     );

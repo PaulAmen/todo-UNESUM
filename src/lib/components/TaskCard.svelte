@@ -45,7 +45,7 @@
             onclick={() => taskStore.toggleComplete(task)}
             class="px-4 py-1.5 text-xs rounded-xl border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white transition-all font-semibold active:scale-95"
         >
-            {task.estado === 'completed' ? 'Reopen' : 'Complete'}
+            {(task.estado === 'completed' || task.estado === 'completado') ? 'Reopen' : 'Complete'}
         </button>
 
         <button 
